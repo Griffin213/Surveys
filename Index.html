@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Griffins Surveys · earn & refer</title>
+    <!-- Font Awesome 6 (free) for clean icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background: #f9fafc;
+            color: #1e293b;
+            line-height: 1.5;
+            padding: 1rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* main container */
+        .app-wrapper {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        /* header / nav */
+        .navbar {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            background: #ffffff;
+            padding: 0.9rem 1.8rem;
+            border-radius: 2rem;
+            box-shadow: 0 8px 20px rgba(0, 20, 30, 0.05);
+            margin-bottom: 2rem;
+            border: 1px solid #eef2f6;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-weight: 700;
+            font-size: 1.6rem;
+            letter-spacing: -0.02em;
+            color: #0f172a;
+        }
+
+        .logo i {
+            color: #0e7c7b;
+            font-size: 2rem;
+        }
+
+        .logo span {
+            color: #0e7c7b;
+            font-weight: 800;
+        }
+
+        .user-badge {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            background: #eef9f9;
+            padding: 0.5rem 1rem 0.5rem 1.2rem;
+            border-radius: 40px;
+        }
+
+        .user-badge .balance {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-weight: 600;
+            color: #0b5e5d;
+            background: #ffffff;
+            padding: 0.4rem 1rem;
+            border-radius: 30px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        }
+
+        .user-badge .balance i {
+            color: #0e7c7b;
+        }
+
+        .user-badge .avatar {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-weight: 500;
+        }
+
+        .user-badge .avatar i {
+            font-size: 1.6rem;
+            color: #1e293b;
+        }
+
+        /* hero / referral card */
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .referral-card {
+            background: linear-gradient(135deg, #0b5e5d 0%, #0e7c7b 100%);
+            color: white;
+            border-radius: 2rem;
+            padding: 2rem 2rem 2rem 2rem;
+            box-shadow: 0 18px 30px -10px rgba(10, 80, 80, 0.3);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .referral-card::after {
+            content: "🎁";
+            position: absolute;
+            right: -10px;
+            bottom: -20px;
+            font-size: 8rem;
+            opacity: 0.1;
+            transform: rotate(10deg);
+            pointer-events: none;
+        }
+
+        .referral-card h2 {
+            font-size: 1.9rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .referral-card h2 i {
+            background: rgba(255,255,255,0.2);
+            padding: 0.5rem;
+            border-radius: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .referral-card p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 80%;
+            margin-bottom: 1.5rem;
+        }
+
+        .ref-code-box {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(6px);
+            border-radius: 3rem;
+            padding: 0.7rem 1.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            border: 1px solid rgba(255,255,255,0.2);
+            gap: 1rem;
+        }
+
+        .ref-code-box .code {
+            font-weight: 700;
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .ref-code-box button {
+            background: white;
+            border: none;
+            padding: 0.6rem 1.4rem;
+            border-radius: 2rem;
+            font-weight: 600;
+            color: #0b5e5d;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            font-size: 0.95rem;
+        }
+
+        .ref-code-box button:hover {
+            background: #f1f9f9;
+            transform: scale(1.02);
+        }
+
+        .earnings-summary {
+            background: white;
+            border-radius: 2rem;
+            padding: 2rem;
+            box-shadow: 0 10px 25px -8px rgba(0,0,0,0.05);
+            border: 1px solid #eef2f6;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .earnings-summary .label {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #64748b;
+            font-weight: 600;
+        }
+
+        .earnings-summary .total {
+            font-size: 3rem;
+            font-weight: 800;
+            color: #0b5e5d;
+            line-height: 1.2;
+            display: flex;
+            align-items: baseline;
+            gap: 0.3rem;
+        }
+
+        .earnings-summary .total small {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: #475569;
+        }
+
+        .earnings-summary .referral-count {
+            margin-top: 1rem;
+            background: #f1f5f9;
+            padding: 0.8rem 1rem;
+            border-radius: 1rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            color: #1e293b;
+        }
+
+        .earnings-summary .referral-count i {
+            color: #0e7c7b;
+            font-size: 1.2rem;
+        }
+
+        /* survey list header */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 1.8rem 0 1.2rem;
+        }
+
+        .section-header h2 {
+            font-size: 1.7rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: #0f172a;
+        }
+
+        .section-header span {
+            background: #e2e8f0;
+            padding: 0.3rem 1rem;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        /* survey cards grid */
+        .surveys-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .survey-card {
+            background: white;
+            border-radius: 1.8rem;
+            padding: 1.5rem;
+            box-shadow: 0 8px 18px -6px rgba(0,0,0,0.05);
+            border: 1px solid #eef2f6;
+            transition: transform 0.15s, box-shadow 0.15s;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .survey-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 18px 30px -10px rgba(0,0,0,0.08);
+            border-color: #cddfe0;
+        }
+
+        .survey-icon {
+            background: #e6f7f7;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 1.2rem;
+            color: #0e7c7b;
+            font-size: 1.8rem;
+        }
+
+        .survey-card h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 0.2rem;
+        }
+
+        .survey-card .company {
+            font-size: 0.9rem;
+            color: #64748b;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .survey-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f8fafc;
+            padding: 0.7rem 1rem;
+            border-radius: 1rem;
+            margin: 0.5rem 0 0.8rem;
+        }
+
+        .survey-meta .reward {
+            font-weight: 800;
+            color: #0b5e5d;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.2rem;
+        }
+
+        .survey-meta .reward small {
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #475569;
+        }
+
+        .survey-meta .time {
+            background: #e9eef3;
+            padding: 0.2rem 0.7rem;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #1e293b;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .survey-card .btn-take {
+            background: #0e7c7b;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.2rem;
+            border-radius: 2rem;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            transition: background 0.2s;
+            margin-top: auto;
+        }
+
+        .survey-card .btn-take:hover {
+            background: #0b5e5d;
+        }
+
+        .survey-card .btn-take i {
+            font-size: 1rem;
+        }
+
+        /* recent activity / refer friend mini */
+        .refer-friend-bar {
+            background: white;
+            border-radius: 2rem;
+            padding: 1.5rem 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            box-shadow: 0 8px 18px -6px rgba(0,0,0,0.05);
+            border: 1px solid #eef2f6;
+            margin-bottom: 2rem;
+        }
+
+        .refer-friend-bar .text {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .refer-friend-bar .text i {
+            font-size: 2rem;
+            color: #0e7c7b;
+            background: #e6f7f7;
+            padding: 0.7rem;
+            border-radius: 1.2rem;
+        }
+
+        .refer-friend-bar .text p {
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+
+        .refer-friend-bar .text small {
+            font-weight: 400;
+            font-size: 0.95rem;
+            color: #475569;
+            display: block;
+        }
+
+        .refer-friend-bar .btn-share {
+            background: #0f172a;
+            color: white;
+            border: none;
+            padding: 0.9rem 2rem;
+            border-radius: 3rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .refer-friend-bar .btn-share:hover {
+            background: #1e293b;
+        }
+
+        /* toast notification */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%) scale(0.95);
+            background: #0f172a;
+            color: white;
+            padding: 0.8rem 1.8rem;
+            border-radius: 3rem;
+            font-weight: 500;
+            box-shadow: 0 15px 25px -8px rgba(0,0,0,0.3);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.2s ease;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            pointer-events: none;
+        }
+
+        .toast.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) scale(1);
+        }
+
+        /* responsive */
+        @media (max-width: 800px) {
+            .hero-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .navbar {
+                padding: 0.8rem 1.2rem;
+            }
+
+            .logo {
+                font-size: 1.3rem;
+            }
+
+            .user-badge {
+                gap: 0.6rem;
+                padding: 0.3rem 0.8rem 0.3rem 0.8rem;
+            }
+
+            .referral-card p {
+                max-width: 100%;
+            }
+
+            .refer-friend-bar .text p {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 520px) {
+            body {
+                padding: 0.8rem;
+            }
+
+            .navbar {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0.8rem;
+            }
+
+            .user-badge {
+                justify-content: space-between;
+            }
+
+            .ref-code-box {
+                flex-direction: column;
+                align-items: stretch;
+                text-align: center;
+                padding: 1rem;
+            }
+
+            .ref-code-box .code {
+                font-size: 1.8rem;
+            }
+
+            .ref-code-box button {
+                justify-content: center;
+            }
+
+            .earnings-summary .total {
+                font-size: 2.5rem;
+            }
+
+            .refer-friend-bar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .refer-friend-bar .btn-share {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-wrapper">
+        <!-- navigation / brand -->
+        <nav class="navbar">
+            <div class="logo">
+                <i class="fas fa-chart-simple"></i>
+                Griffins <span>Surveys</span>
+            </div>
+            <div class="user-badge">
+                <div class="balance">
+                    <i class="fas fa-coins"></i> KES 1,250
+                </div>
+                <div class="avatar">
+                    <i class="fas fa-user-circle"></i>
+                    <span>James</span>
+                </div>
+            </div>
+        </nav>
+
+        <!-- hero + referral & earnings -->
+        <div class="hero-grid">
+            <div class="referral-card">
+                <div>
+                    <h2><i class="fas fa-gift"></i> Refer & earn</h2>
+                    <p>Invite friends to Griffins. You get <strong>KES 50</strong> for each new signup, and they get a head start!</p>
+                </div>
+                <div class="ref-code-box">
+                    <span class="code" id="referralCode">GRIFFIN50</span>
+                    <button id="copyRefBtn"><i class="fas fa-copy"></i> Copy code</button>
+                </div>
+            </div>
+
+            <div class="earnings-summary">
+                <div class="label">YOUR EARNINGS</div>
+                <div class="total">
+                    KES 1,250 <small>this month</small>
+                </div>
+                <div class="referral-count">
+                    <i class="fas fa-user-plus"></i> 7 successful referrals · +KES 350
+                </div>
+            </div>
+        </div>
+
+        <!-- survey section -->
+        <div class="section-header">
+            <h2>Take a survey, get paid</h2>
+            <span><i class="fas fa-bolt"></i> 5 available</span>
+        </div>
+
+        <!-- survey cards (dynamic via JS but we can keep static fallback too) -->
+        <div class="surveys-grid" id="surveysGrid">
+            <!-- survey 1 -->
+            <div class="survey-card">
+                <div class="survey-icon"><i class="fas fa-mobile-alt"></i></div>
+                <h3>Mobile habits</h3>
+                <div class="company">Samsung · 5 min</div>
+                <div class="survey-meta">
+                    <div class="reward">KES 120 <small>reward</small></div>
+                    <div class="time"><i class="far fa-clock"></i> 5 min</div>
+                </div>
+                <button class="btn-take" data-survey="Mobile habits" data-reward="120"><i class="fas fa-play"></i> Take survey – KES 120</button>
+            </div>
+            <!-- survey 2 -->
+            <div class="survey-card">
+                <div class="survey-icon"><i class="fas fa-shopping-bag"></i></div>
+                <h3>Shopping trends</h3>
+                <div class="company">Jumia · 8 min</div>
+                <div class="survey-meta">
+                    <div class="reward">KES 200 <small>reward</small></div>
+                    <div class="time"><i class="far fa-clock"></i> 8 min</div>
+                </div>
+                <button class="btn-take" data-survey="Shopping trends" data-reward="200"><i class="fas fa-play"></i> Take survey – KES 200</button>
+            </div>
+            <!-- survey 3 -->
+            <div class="survey-card">
+                <div class="survey-icon"><i class="fas fa-newspaper"></i></div>
+                <h3>News & media</h3>
+                <div class="company">BBC · 4 min</div>
+                <div class="survey-meta">
+                    <div class="reward">KES 90 <small>reward</small></div>
+                    <div class="time"><i class="far fa-clock"></i> 4 min</div>
+                </div>
+                <button class="btn-take" data-survey="News & media" data-reward="90"><i class="fas fa-play"></i> Take survey – KES 90</button>
+            </div>
+            <!-- survey 4 -->
+            <div class="survey-card">
+                <div class="survey-icon"><i class="fas fa-utensils"></i></div>
+                <h3>Food delivery</h3>
+                <div class="company">Uber Eats · 7 min</div>
+                <div class="survey-meta">
+                    <div class="reward">KES 180 <small>reward</small></div>
+                    <div class="time"><i class="far fa-clock"></i> 7 min</div>
+                </div>
+                <button class="btn-take" data-survey="Food delivery" data-reward="180"><i class="fas fa-play"></i> Take survey – KES 180</button>
+            </div>
+        </div>
+
+        <!-- refer a friend bar -->
+        <div class="refer-friend-bar">
+            <div class="text">
+                <i class="fas fa hi-user-group"></i>
+                <div>
+                    <p>Refer a friend, earn KES 50</p>
+                    <small>They pay only KES 50 to start? Actually: each new user pays 50 bob → you get 50.</small>
+                </div>
+            </div>
+            <button class="btn-share" id="shareRefBtn"><i class="fas fa-share-nodes"></i> Share referral link</button>
+        </div>
+    </div>
+
+        <!-- ================= ENHANCED TOAST HTML ================= -->
+    <div class="toast" id="toast">
+        <div class="toast-icon" id="toastIcon">
+            <i class="fas fa-check-circle"></i>
+        </div>
+        <div class="toast-content">
+            <span class="toast-title" id="toastTitle">Success</span>
+            <span class="toast-message" id="toastMessage">Copied!</span>
+        </div>
+        <button class="toast-close" id="toastClose" aria-label="Close">
+            <i class="fas fa-times"></i>
+        </button>
+        <div class="toast-progress" id="toastProgress"></div>
+    </div>
+
+    <!-- ================= STYLES (append to existing <style>) ================= -->
+    <style>
+        /* ===== ENHANCED TOAST STYLES ===== */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%) translateY(120%) scale(0.95);
+            background: #0f172a;
+            color: white;
+            padding: 1rem 1.2rem;
+            border-radius: 1rem;
+            box-shadow: 0 20px 35px -10px rgba(0,0,0,0.35);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.35s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            gap: 0.9rem;
+            max-width: 420px;
+            width: calc(100% - 2rem);
+            overflow: hidden;
+            border-left: 4px solid transparent;
+        }
+
+        .toast.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0) scale(1);
+        }
+
+        /* Toast variants */
+        .toast.toast-success { border-left-color: #10b981; }
+        .toast.toast-error   { border-left-color: #ef4444; }
+        .toast.toast-warning { border-left-color: #f59e0b; }
+        .toast.toast-info    { border-left-color: #3b82f6; }
+
+        .toast-icon {
+            width: 38px;
+            height: 38px;
+            min-width: 38px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            background: rgba(255,255,255,0.1);
+        }
+
+        .toast.toast-success .toast-icon { background: rgba(16, 185, 129, 0.2); color: #10b981; }
+        .toast.toast-error   .toast-icon { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+        .toast.toast-warning .toast-icon { background: rgba(245, 158, 11, 0.2); color: #f59e0b; }
+        .toast.toast-info    .toast-icon { background: rgba(59, 130, 246, 0.2); color: #3b82f6; }
+
+        .toast-content {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .toast-title {
+            font-weight: 700;
+            font-size: 0.95rem;
+            letter-spacing: -0.01em;
+            margin-bottom: 2px;
+        }
+
+        .toast-message {
+            font-size: 0.85rem;
+            opacity: 0.85;
+            line-height: 1.35;
+            word-wrap: break-word;
+        }
+
+        .toast-close {
+            background: transparent;
+            border: none;
+            color: rgba(255,255,255,0.6);
+            cursor: pointer;
+            font-size: 0.9rem;
+            padding: 0.3rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+
+        .toast-close:hover {
+            color: white;
+            background: rgba(255,255,255,0.1);
+        }
+
+        /* Auto-dismiss progress bar */
+        .toast-progress {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 3px;
+            width: 100%;
+            background: rgba(255,255,255,0.15);
+            transform-origin: left;
+            border-radius: 0 0 0 1rem;
+        }
+
+        .toast.show .toast-progress {
+            animation: toastProgress var(--toast-duration, 3000ms) linear forwards;
+        }
+
+        .toast.toast-success .toast-progress { background: #10b981; }
+        .toast.toast-error   .toast-progress { background: #ef4444; }
+        .toast.toast-warning .toast-progress { background: #f59e0b; }
+        .toast.toast-info    .toast-progress { background: #3b82f6; }
+
+        @keyframes toastProgress {
+            from { transform: scaleX(1); }
+            to   { transform: scaleX(0); }
+        }
+
+        /* Toast queue container (for stacking) */
+        .toast-container {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column-reverse;
+            gap: 0.7rem;
+            z-index: 9999;
+            pointer-events: none;
+            width: calc(100% - 2rem);
+            max-width: 420px;
+        }
+
+        .toast-container .toast {
+            position: relative;
+            left: auto;
+            bottom: auto;
+            transform: translateY(20px);
+            pointer-events: auto;
+            width: 100%;
+        }
+
+        .toast-container .toast.show {
+            transform: translateY(0);
+        }
+
+        @media (max-width: 520px) {
+            .toast {
+                padding: 0.85rem 1rem;
+                gap: 0.7rem;
+            }
+            .toast-icon {
+                width: 34px;
+                height: 34px;
+                min-width: 34px;
+                font-size: 1rem;
+            }
+            .toast-title { font-size: 0.88rem; }
+            .toast-message { font-size: 0.8rem; }
+        }
+    </style>
+
+    <!-- ================= JAVASCRIPT (replace the entire <script> block) ================= -->
+    <script>
+        /* ===== ENHANCED TOAST SYSTEM ===== */
+        const Toast = (function () {
+            const TYPES = {
+                success: { icon: 'fas fa-check-circle', title: 'Success', duration: 3000 },
+                error:   { icon: 'fas fa-times-circle', title: 'Error',   duration: 4000 },
+                warning: { icon: 'fas fa-exclamation-triangle', title: 'Warning', duration: 3500 },
+                info:    { icon: 'fas fa-info-circle', title: 'Info',    duration: 3000 }
+            };
+
+            let container = null;
+
+            function getContainer() {
+                if (!container) {
+                    container = document.createElement('div');
+                    container.className = 'toast-container';
+                    container.id = 'toastContainer';
+                    document.body.appendChild(container);
+                }
+                return container;
+            }
+
+            function show(message, type = 'success', options = {}) {
+                const config = TYPES[type] || TYPES.success;
+                const duration = options.duration ?? config.duration;
+                const title = options.title || config.title;
+
+                const parent = getContainer();
+
+                const toast = document.createElement('div');
+                toast.className = `toast toast-${type}`;
+                toast.style.setProperty('--toast-duration', `${duration}ms`);
+                toast.innerHTML = `
+                    <div class="toast-icon"><i class="${config.icon}"></i></div>
+                    <div class="toast-content">
+                        <span class="toast-title">${title}</span>
+                        <span class="toast-message">${message}</span>
+                    </div>
+                    <button class="toast-close" aria-label="Close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    <div class="toast-progress"></div>
+                `;
+
+                parent.appendChild(toast);
+
+                void toast.offsetWidth;
+                requestAnimationFrame(() => toast.classList.add('show'));
+
+                let dismissTimer = null;
+
+                function dismiss() {
+                    if (dismissTimer) clearTimeout(dismissTimer);
+                    toast.classList.remove('show');
+                    setTimeout(() => {
+                        toast.remove();
+                        if (parent.children.length === 0) {
+                            parent.remove();
+                            container = null;
+                        }
+                    }, 350);
+                }
+
+                toast.querySelector('.toast-close').addEventListener('click', dismiss);
+                dismissTimer = setTimeout(dismiss, duration);
+
+                return { dismiss, element: toast };
+            }
+
+            return {
+                show,
+                success: (msg, opts) => show(msg, 'success', opts),
+                error:   (msg, opts) => show(msg, 'error', opts),
+                warning: (msg, opts) => show(msg, 'warning', opts),
+                info:    (msg, opts) => show(msg, 'info', opts)
+            };
+        })();
+
+        /* ===== MAIN APP LOGIC ===== */
+        (function() {
+            // ----- elements -----
+            const copyBtn = document.getElementById('copyRefBtn');
+            const referralCodeEl = document.getElementById('referralCode');
+            const shareBtn = document.getElementById('shareRefBtn');
+            const surveysGrid = document.getElementById('surveysGrid');
+
+            // User state (in real app: fetch from backend)
+            let userBalance = 1250;
+            let referralCount = 7;
+
+            // DOM references for updating UI
+            const balanceSpan = document.querySelector('.user-badge .balance');
+            const totalEarningsEl = document.querySelector('.earnings-summary .total');
+            const referralCountEl = document.querySelector('.earnings-summary .referral-count');
+
+            // Helper: update UI
+            function updateEarningsUI() {
+                if (balanceSpan) {
+                    balanceSpan.innerHTML = `<i class="fas fa-coins"></i> KES ${userBalance.toLocaleString()}`;
+                }
+                if (totalEarningsEl) {
+                    totalEarningsEl.innerHTML = `KES ${userBalance.toLocaleString()} <small>this month</small>`;
+                }
+                if (referralCountEl) {
+                    referralCountEl.innerHTML = `<i class="fas fa-user-plus"></i> ${referralCount} successful referrals · +KES ${(referralCount * 50).toLocaleString()}`;
+                }
+            }
+
+            updateEarningsUI();
+
+            // ----- Copy referral code -----
+            if (copyBtn) {
+                copyBtn.addEventListener('click', () => {
+                    const code = referralCodeEl.innerText.trim();
+                    if (navigator.clipboard && navigator.clipboard.writeText) {
+                        navigator.clipboard.writeText(code).then(() => {
+                            Toast.success(`Code "${code}" copied! Share it to earn KES 50 per signup.`, {
+                                title: 'Referral Code Copied'
+                            });
+                        }).catch(() => {
+                            Toast.error('Could not copy. Please copy the code manually.', {
+                                title: 'Copy Failed'
+                            });
+                        });
+                    } else {
+                        Toast.warning('Clipboard not supported. Please copy the code manually.', {
+                            title: 'Manual Copy Needed'
+                        });
+                    }
+                });
+            }
+
+            // ----- Share referral -----
+            if (shareBtn) {
+                shareBtn.addEventListener('click', () => {
+                    const code = referralCodeEl.innerText.trim();
+                    const shareText = `Join Griffins Surveys using my code ${code} and we both earn! Each new user pays only 50 bob to get started.`;
+
+                    if (navigator.share) {
+                        navigator.share({
+                            title: 'Griffins Surveys',
+                            text: shareText,
+                            url: window.location.href,
+                        }).then(() => {
+                            Toast.info('Thanks for sharing!', { title: 'Shared' });
+                        }).catch(() => {
+                            if (navigator.clipboard && navigator.clipboard.writeText) {
+                                navigator.clipboard.writeText(shareText).then(() => {
+                                    Toast.success('Referral message copied to clipboard!', {
+                                        title: 'Ready to Share'
+                                    });
+                                }).catch(() => {
+                                    Toast.error('Unable to share. Please copy manually.', {
+                                        title: 'Share Failed'
+                                    });
+                                });
+                            } else {
+                                Toast.error('Unable to share. Please copy manually.');
+                            }
+                        });
+                    } else if (navigator.clipboard && navigator.clipboard.writeText) {
+                        navigator.clipboard.writeText(shareText).then(() => {
+                            Toast.success('Referral message copied! Paste it anywhere to invite friends.');
+                        }).catch(() => {
+                            Toast.error('Unable to copy. Please share manually.');
+                        });
+                    } else {
+                        Toast.warning('Sharing not supported on this browser. Please copy manually.', {
+                            title: 'Manual Share Needed'
+                        });
+                    }
+                });
+            }
+
+            // ----- Survey buttons -----
+            const takeButtons = document.querySelectorAll('.btn-take');
+
+            takeButtons.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+
+                    const reward = parseFloat(this.dataset.reward);
+                    const surveyName = this.dataset.survey || 'Survey';
+                    if (isNaN(reward) || reward <= 0) {
+                        Toast.error('Invalid survey reward.', { title: 'Error' });
+                        return;
+                    }
+
+                    const originalText = this.innerHTML;
+                    this.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Processing...`;
+                    this.disabled = true;
+
+                    Toast.info(`Starting "${surveyName}"...`, {
+                        title: 'Survey Started',
+                        duration: 1500
+                    });
+
+                    setTimeout(() => {
+                        userBalance += reward;
+                        updateEarningsUI();
+
+                        Toast.success(`Survey "${surveyName}" completed! + KES ${reward}`, {
+                            title: '🎉 Reward Earned',
+                            duration: 4000
+                        });
+
+                        this.innerHTML = originalText;
+                        this.disabled = false;
+                    }, 1800);
+                });
+            });
+
+            // ----- Simulated referral (double-click earnings) -----
+            if (totalEarningsEl) {
+                totalEarningsEl.style.cursor = 'pointer';
+                totalEarningsEl.title = 'Double-click to simulate a referral signup (KES 50 bonus)';
+                totalEarningsEl.addEventListener('dblclick', () => {
+                    userBalance += 50;
+                    referralCount += 1;
+                    updateEarningsUI();
+                    Toast.success('New referral! + KES 50 added to your balance.', {
+                        title: '👤 Referral Bonus',
+                        duration: 4000
+                    });
+                });
+            }
+        })();
+    </script>
+</body>
+</html>
